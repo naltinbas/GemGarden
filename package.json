@@ -1,0 +1,19 @@
+{
+  "name": "gem-garden",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Browser match-3 puzzle set in a magical greenhouse",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3",
+    "vite": "^6.0.7",
+    "vitest": "^2.1.8"
+  }
+}
