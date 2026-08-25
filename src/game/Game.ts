@@ -131,14 +131,10 @@ export class Game {
   private readonly onVisibility = (): void => {
     // Skip the time that passed while hidden; the next frame starts a fresh delta.
     this.lastFrame = -1;
+    if (document.visibilityState === "visible") this.audio.resume();
   };
-  private readonly unlockAudio = (): void => {
-    this.audio.unlock();
-    if (this.audio.unlocked) {
-      window.removeEventListener("pointerdown", this.unlockAudio, true);
-      window.removeEventListener("keydown", this.unlockAudio, true);
-    }
-  };
+  // Stays registered for the game's lifetime: the context can be suspended again after the first unlock.
+  private readonly unlockAudio = (): void => this.audio.unlock();
 
   constructor(canvas: HTMLCanvasElement, uiRoot: HTMLElement, options: GameOptions = {}) {
     this.canvas = canvas;

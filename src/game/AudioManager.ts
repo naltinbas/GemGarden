@@ -84,11 +84,22 @@ export class AudioManager {
         this.master.gain.value = this.soundOn ? 1 : 0;
         this.master.connect(this.ctx.destination);
       }
-      if (this.ctx.state === "suspended") void this.ctx.resume().catch(() => undefined);
+      this.resume();
       if (this.ambientOn && !this.ambientNodes) this.startAmbient();
     } catch {
       this.ctx = null;
       this.master = null;
+    }
+  }
+
+  /** Resumes an existing context in any paused state, including Safari's "interrupted". */
+  resume(): void {
+    const ctx = this.ctx;
+    if (!ctx || ctx.state === "running" || ctx.state === "closed") return;
+    try {
+      void ctx.resume().catch(() => undefined);
+    } catch {
+      // ignore
     }
   }
 
