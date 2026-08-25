@@ -158,6 +158,9 @@ export function cascadeLabel(index: number): string {
 
 export const SAVE_KEY = "gemgarden.save.v1";
 
+/** Text size slider bounds; stored values are clamped into this range. */
+export const TEXT_SCALE = { min: 0.8, max: 1.5, step: 0.1 };
+
 export const DEFAULT_SETTINGS = {
   sound: true,
   ambient: false,

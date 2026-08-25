@@ -1,6 +1,6 @@
 // HTML overlays: menus, HUD, dialogs, toasts. No board logic lives here.
 import type { LevelDefinition, LevelProgress, LevelResult, ObjectiveStatus, Settings } from "../game/Types";
-import { DEFAULT_SETTINGS, TIMING } from "../game/Config";
+import { DEFAULT_SETTINGS, TEXT_SCALE, TIMING } from "../game/Config";
 import { icon } from "./Icons";
 
 export interface UICallbacks {
@@ -784,9 +784,9 @@ export class UIManager {
     const wrap = el("span", "range-wrap");
     const range = el("input");
     range.type = "range";
-    range.min = "0.8";
-    range.max = "1.5";
-    range.step = "0.1";
+    range.min = String(TEXT_SCALE.min);
+    range.max = String(TEXT_SCALE.max);
+    range.step = String(TEXT_SCALE.step);
     range.setAttribute("aria-label", "Text size");
     const textScaleValue = el("span", "range-value", "100%");
     range.addEventListener("input", () => {

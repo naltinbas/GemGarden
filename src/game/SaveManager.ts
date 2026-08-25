@@ -1,5 +1,6 @@
 import type { LevelProgress, SaveData, Settings } from "./Types";
-import { DEFAULT_SETTINGS, SAVE_KEY } from "./Config";
+import { DEFAULT_SETTINGS, SAVE_KEY, TEXT_SCALE } from "./Config";
+import { clamp } from "../utils/MathUtils";
 
 export const SAVE_VERSION = 1;
 
@@ -39,7 +40,9 @@ function readSettings(raw: unknown): Settings {
   for (const key of Object.keys(settings) as (keyof Settings)[]) {
     const value = raw[key];
     if (key === "textScale") {
-      if (typeof value === "number" && Number.isFinite(value) && value > 0) settings.textScale = value;
+      if (typeof value === "number" && Number.isFinite(value) && value > 0) {
+        settings.textScale = clamp(value, TEXT_SCALE.min, TEXT_SCALE.max);
+      }
     } else if (typeof value === "boolean") {
       settings[key] = value;
     }

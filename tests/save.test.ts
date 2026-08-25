@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { DEFAULT_SETTINGS, SAVE_KEY } from "../src/game/Config";
+import { DEFAULT_SETTINGS, SAVE_KEY, TEXT_SCALE } from "../src/game/Config";
 import { SAVE_VERSION, SaveManager, parseSaveData, type StorageLike } from "../src/game/SaveManager";
 
 class FakeStorage implements StorageLike {
@@ -148,6 +148,19 @@ describe("SaveManager", () => {
     expect(save.highestUnlocked).toBe(1);
     expect(save.getProgress(1).completed).toBe(false);
     expect(save.settings.ambient).toBe(true);
+  });
+
+  it("clamps a stored textScale into the slider's range", () => {
+    for (const [stored, expected] of [
+      [60, TEXT_SCALE.max],
+      [0.1, TEXT_SCALE.min],
+      [1.2, 1.2],
+    ]) {
+      const data = parseSaveData(JSON.stringify({ version: 1, settings: { textScale: stored } }));
+      expect(data.settings.textScale).toBe(expected);
+    }
+    const save = new SaveManager(new FakeStorage());
+    expect(save.updateSettings({ textScale: 9 }).textScale).toBe(TEXT_SCALE.max);
   });
 
   it("resets progress but keeps and persists settings", () => {
