@@ -1,10 +1,8 @@
-# Gem Garden
+<p align="center"><img src="logo.svg" alt="Gem Garden" width="720"></p>
 
 A browser match-3 about restoring a night-time greenhouse. Swap neighbouring gems to line up three or more, grow special pieces from bigger matches, and work through twelve beds with move limits, moss, roots, vines, locked buds, mist and falling sun seeds.
 
 No backend, no assets to download. Every sprite is drawn on a canvas at load time, every sound is synthesised with the Web Audio API, and progress lives in localStorage.
-
-![Level 12, Grand Conservatory](screenshots/grand-conservatory.png)
 
 ## Screenshots
 
@@ -13,8 +11,9 @@ No backend, no assets to download. Every sprite is drawn on a canvas at load tim
 | ![Main menu](screenshots/main-menu.png) | ![Level map](screenshots/level-select.png) |
 | ![A Vine Beam firing](screenshots/vine-beam.png) | ![Shadow Mist on the round bed](screenshots/mist-garden.png) |
 | ![Sun Seeds falling toward the soil](screenshots/seedfall-path.png) | ![High-contrast mode](screenshots/high-contrast.png) |
+| ![Level 12, Grand Conservatory](screenshots/grand-conservatory.png) | ![Level complete](screenshots/level-complete.png) |
 
-More in [screenshots/](screenshots/), including the phone layout and the level-complete screen.
+More in [screenshots/](screenshots/), including the phone layout. The logo and icon are hand-built SVG in [logo.svg](logo.svg) and [public/favicon.svg](public/favicon.svg); the wordmark is Cormorant Garamond (OFL) outlined to paths.
 
 ## Running it
 
