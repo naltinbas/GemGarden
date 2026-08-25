@@ -83,6 +83,7 @@ export interface BoardConfig {
   rows: number;
   cols: number;
   tokenTypes: TokenColor[];
+  /** Overwritten by the generator with LevelDefinition.allowedSpecials, which is authoritative. */
   allowedSpecials: SpecialType[];
 }
 
@@ -181,11 +182,14 @@ export interface SpecialCreation {
   at: CellPosition;
   type: SpecialType;
   color: TokenColor | null;
+  /** The token that became the special. Same id it had before, mutated in place. */
+  token: Token;
 }
 
 export interface BlockerHit {
   at: CellPosition;
   type: BlockerType;
+  remainingHp: number;
   destroyed: boolean;
 }
 
@@ -222,9 +226,10 @@ export interface ClearStep {
 
 export interface TokenMove {
   token: Token;
+  /** For spawned tokens this is above the top of the column segment: segmentTop - k, which may be >= 0. */
   from: CellPosition;
   to: CellPosition;
-  /** True when the token entered from above the board (from.row is negative). */
+  /** True when the token was created this step and entered from above its segment. */
   spawned: boolean;
 }
 
@@ -234,8 +239,12 @@ export interface SeedDelivery {
 }
 
 export interface FallStep {
+  /** One entry per token that moved, from its position at step start to its final resting cell. */
   moves: TokenMove[];
+  /** Seeds that reached an exit. Each also has a move ending on the exit cell. */
   delivered: SeedDelivery[];
+  scoreGained: number;
+  scoreEvents: ScoreEvent[];
 }
 
 export interface SpreadEvent {
