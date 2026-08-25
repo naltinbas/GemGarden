@@ -131,6 +131,14 @@ describe("isValidSwap with seeds", () => {
     const board = parseBoard(["a c v j p a", "c v j p a c", "r r S r c v", "j p a c v j", "p a c v j p", "a c v j p a"]);
     expect(isValidSwap(board, pos(2, 2), pos(2, 3)).valid).toBe(true);
   });
+
+  it("rejects swapping two stacked seeds, so a board with only that pair has no move", () => {
+    const board = parseBoard(["a c v j p a", "c v S p a c", "v j S a c v", "j p X c v j", "p a c v j p", "a c v j p a"]);
+    expect(isValidSwap(board, pos(1, 2), pos(2, 2)).valid).toBe(false);
+    expect(isValidSwap(board, pos(2, 2), pos(1, 2)).valid).toBe(false);
+    expect(findValidMoves(board)).toEqual([]);
+    expect(hasValidMove(board)).toBe(false);
+  });
 });
 
 describe("findValidMoves and hasValidMove", () => {

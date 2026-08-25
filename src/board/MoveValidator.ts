@@ -52,8 +52,9 @@ function isAdjacent(a: CellPosition, b: CellPosition): boolean {
   return Math.abs(a.row - b.row) + Math.abs(a.col - b.col) === 1;
 }
 
-function seedMovesDown(token: Token, from: CellPosition, to: CellPosition): boolean {
-  return token.kind === "seed" && to.col === from.col && to.row === from.row + 1;
+/** A seed may drop one row onto a gem. Two stacked seeds swapping is a no-op, not a move. */
+function seedMovesDown(token: Token, below: Token, from: CellPosition, to: CellPosition): boolean {
+  return token.kind === "seed" && below.kind !== "seed" && to.col === from.col && to.row === from.row + 1;
 }
 
 const INVALID: SwapValidity = { valid: false, combo: "none" };
@@ -68,7 +69,7 @@ export function isValidSwap(board: Board, a: CellPosition, b: CellPosition): Swa
 
   const combo = classifyCombo(tokenA, tokenB);
   if (combo !== "none") return { valid: true, combo };
-  if (seedMovesDown(tokenA, a, b) || seedMovesDown(tokenB, b, a)) return { valid: true, combo };
+  if (seedMovesDown(tokenA, tokenB, a, b) || seedMovesDown(tokenB, tokenA, b, a)) return { valid: true, combo };
 
   board.swapTokens(a, b);
   const matched = hasMatchAt(board, a) || hasMatchAt(board, b);
