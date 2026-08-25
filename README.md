@@ -6,6 +6,16 @@ No backend, no assets to download. Every sprite is drawn on a canvas at load tim
 
 ![Level 12, Grand Conservatory](screenshots/grand-conservatory.png)
 
+## Screenshots
+
+| | |
+|---|---|
+| ![Main menu](screenshots/main-menu.png) | ![Level map](screenshots/level-select.png) |
+| ![A Vine Beam firing](screenshots/vine-beam.png) | ![Shadow Mist on the round bed](screenshots/mist-garden.png) |
+| ![Sun Seeds falling toward the soil](screenshots/seedfall-path.png) | ![High-contrast mode](screenshots/high-contrast.png) |
+
+More in [screenshots/](screenshots/), including the phone layout and the level-complete screen.
+
 ## Running it
 
 ```bash
