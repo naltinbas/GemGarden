@@ -841,7 +841,7 @@ export class UIManager {
     list.append(
       el("p", undefined, "Gem Garden is an original match-3 puzzle set in a night greenhouse."),
       el("p", undefined, "Built with TypeScript, Vite and the Canvas 2D API."),
-      el("p", undefined, "Every gem, blocker and sound is drawn or synthesised in code. No external assets."),
+      el("p", undefined, "Every gem, blocker and sound is drawn or synthesised in code, without any external assets."),
     );
     body.appendChild(list);
     panel.appendChild(this.button("Back", () => this.goBack(), { primary: true }));
