@@ -160,13 +160,10 @@ export class SaveManager {
     return this.settings;
   }
 
+  /** Clears progress; settings survive, as the reset dialog promises. */
   reset(): void {
-    this.data = emptySaveData();
-    if (!this.storage) return;
-    try {
-      this.storage.removeItem(SAVE_KEY);
-    } catch {
-      // Nothing to do; the in-memory state is already clean.
-    }
+    const settings = this.data.settings;
+    this.data = { ...emptySaveData(), settings };
+    this.save();
   }
 }

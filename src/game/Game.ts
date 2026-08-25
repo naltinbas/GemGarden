@@ -167,6 +167,7 @@ export class Game {
         onSettingsChange: (patch) => this.applySettings(this.save.updateSettings(patch)),
         onResetProgress: () => {
           this.save.reset();
+          this.applySettings(this.save.settings);
           this.showMainMenu();
         },
         onHint: () => this.showHint(),

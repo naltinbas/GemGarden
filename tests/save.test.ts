@@ -150,16 +150,20 @@ describe("SaveManager", () => {
     expect(save.settings.ambient).toBe(true);
   });
 
-  it("resets memory and storage", () => {
+  it("resets progress but keeps and persists settings", () => {
     const storage = new FakeStorage();
     const save = new SaveManager(storage);
     save.recordResult(1, 1000, 3);
-    save.updateSettings({ sound: false });
+    save.updateSettings({ sound: false, highContrast: true, textScale: 1.3 });
     save.reset();
     expect(save.highestUnlocked).toBe(1);
-    expect(save.getProgress(1).stars).toBe(0);
-    expect(save.settings.sound).toBe(true);
-    expect(storage.items.has(SAVE_KEY)).toBe(false);
+    expect(save.getProgress(1)).toEqual({ stars: 0, bestScore: 0, completed: false });
+    expect(save.settings).toEqual({ ...DEFAULT_SETTINGS, sound: false, highContrast: true, textScale: 1.3 });
+
+    const reloaded = new SaveManager(storage);
+    expect(reloaded.highestUnlocked).toBe(1);
+    expect(reloaded.getProgress(1).completed).toBe(false);
+    expect(reloaded.settings).toEqual(save.settings);
   });
 
   it("works in memory when there is no storage at all", () => {
