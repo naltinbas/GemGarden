@@ -7,6 +7,7 @@ import { DeliverSeedObjective } from "../src/objectives/DeliverSeedObjective";
 import { ObjectiveTracker, createObjective } from "../src/objectives/ObjectiveTracker";
 import { ScoreObjective } from "../src/objectives/ScoreObjective";
 import { createBlocker } from "../src/entities/Blocker";
+import { createTerrain } from "../src/entities/Terrain";
 import { parseBoard, pos } from "./helpers";
 
 let nextId = 1;
@@ -104,6 +105,35 @@ describe("ClearTerrainObjective", () => {
     const o = new ClearTerrainObjective({ type: "clearTerrain", target: "all" }, board);
     expect(o.target).toBe(6);
     expect(o.status().label).toBe("Crystal Moss");
+  });
+
+  it("judges 'all' by the layers left on the board, so spread moss must go too", () => {
+    const board = parseBoard(["r2 a c v1 j", "a c v j p", "c v j p r", "v j p r a", "j p r a c"]);
+    const o = new ClearTerrainObjective({ type: "clearTerrain", target: "all" }, board);
+    expect(o.target).toBe(3);
+    expect(o.progress).toBe(0);
+
+    board.cells[0][0].terrain = createTerrain(1);
+    o.onClear(clearStep({ terrainHits: [{ at: pos(0, 0), remainingLayers: 1 }] }));
+    board.cells[0][3].terrain = null;
+    o.onClear(clearStep({ terrainHits: [{ at: pos(0, 3), remainingLayers: 0 }] }));
+    expect(o.progress).toBe(2);
+    expect(o.complete).toBe(false);
+
+    // Spread: the target stays, progress drops back and the hit count alone never finishes it.
+    board.cells[3][3].terrain = createTerrain(1);
+    expect(o.target).toBe(3);
+    expect(o.progress).toBe(1);
+    board.cells[0][0].terrain = null;
+    o.onClear(clearStep({ terrainHits: [{ at: pos(0, 0), remainingLayers: 0 }] }));
+    expect(o.progress).toBe(2);
+    expect(o.complete).toBe(false);
+
+    board.cells[3][3].terrain = null;
+    o.onClear(clearStep({ terrainHits: [{ at: pos(3, 3), remainingLayers: 0 }] }));
+    expect(o.progress).toBe(3);
+    expect(o.complete).toBe(true);
+    expect(o.status()).toMatchObject({ progress: 3, target: 3, complete: true, icon: "moss" });
   });
 });
 
@@ -208,6 +238,7 @@ describe("ObjectiveTracker", () => {
     expect(tracker.statuses().map((s) => s.target)).toEqual([300, 1, 2, 1, 1]);
     expect(tracker.allComplete()).toBe(false);
 
+    board.cells[0][0].terrain = null;
     tracker.onClear(
       clearStep({
         cleared: [{ token: gem("ruby"), at: pos(0, 0) }],

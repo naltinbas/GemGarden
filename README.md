@@ -59,7 +59,7 @@ Specials caught inside another effect fire too, so a beam that sweeps through a 
 
 ### Things in the way
 
-- Crystal Moss sits under a gem. Clearing the gem on it removes one layer; thick moss has two. Some levels let it spread when a move leaves it alone.
+- Crystal Moss sits under a gem. Clearing the gem on it removes one layer; thick moss has two. A level can let it spread when a move leaves it alone, and spread patches count against a clear-all goal too.
 - A Stone Root fills a cell and blocks falling gems. Match next to it, or hit it with a special, twice.
 - A Glass Vine wraps a gem. The gem still matches but cannot be swapped; matching it shatters the vine.
 - A Locked Bud seals a gem so it neither swaps nor matches. A match beside it, or a special, opens it and the gem stays.

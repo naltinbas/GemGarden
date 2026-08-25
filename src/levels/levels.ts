@@ -197,7 +197,6 @@ export const LEVELS: LevelDefinition[] = [
     allowedSpecials: ALL_SPECIALS,
     starThresholds: [10000, 14500, 18000],
     tutorialMessage: "Match five in a line to form a Prism Core. Swap it with a gem to clear every gem of that color.",
-    mossSpreads: true,
     seed: 1010,
   },
   {
