@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#06140f" />
+    <meta name="description" content="Gem Garden: a match-3 puzzle set in a night greenhouse." />
+    <title>Gem Garden</title>
+    <link rel="stylesheet" href="/src/ui/styles.css" />
+  </head>
+  <body>
+    <div id="app">
+      <div id="ui"></div>
+      <div id="stage">
+        <canvas id="board" tabindex="0" aria-label="Gem Garden board. Use the arrow keys to move, Space to select and swap."></canvas>
+        <p id="fallback" class="fallback" hidden>
+          Gem Garden needs a browser that can draw on a 2D canvas. Please try a current browser.
+        </p>
+      </div>
+    </div>
+    <noscript>
+      <p class="fallback">Gem Garden needs JavaScript to run.</p>
+    </noscript>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
