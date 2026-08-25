@@ -55,9 +55,14 @@ export class CanvasRenderer {
 
   /** width/height in CSS pixels. */
   resize(width: number, height: number, dpr: number): void {
-    this.width = Math.max(1, Math.floor(width));
-    this.height = Math.max(1, Math.floor(height));
-    this.dpr = Math.max(1, dpr || 1);
+    const w = Math.max(1, Math.floor(width));
+    const h = Math.max(1, Math.floor(height));
+    const d = Math.max(1, dpr || 1);
+    // Same size and DPR: keep the bitmap and the sprite cache.
+    if (w === this.width && h === this.height && d === this.dpr) return;
+    this.width = w;
+    this.height = h;
+    this.dpr = d;
     this.canvas.width = Math.round(this.width * this.dpr);
     this.canvas.height = Math.round(this.height * this.dpr);
     this.canvas.style.width = `${this.width}px`;

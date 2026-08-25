@@ -93,4 +93,28 @@ describe("CanvasRenderer", () => {
     // The draw ran to the end: the outer save/restore pair is balanced.
     expect(calls.filter((c) => c === "save").length).toBe(calls.filter((c) => c === "restore").length);
   });
+
+  it("ignores a resize to the same size and DPR", () => {
+    const calls: string[] = [];
+    const { renderer, canvas } = makeRenderer(calls);
+    renderer.resize(800.7, 600.2, 2);
+    expect(canvas.sizeWrites).toBe(1);
+    expect(canvas.width).toBe(1600);
+    renderer.assets.tokenSprite("ruby", "none", 48, false);
+    expect(renderer.assets.cacheSize).toBe(1);
+
+    renderer.resize(800, 600, 2);
+    renderer.resize(800.9, 600.1, 2);
+    expect(canvas.sizeWrites).toBe(1);
+    expect(renderer.assets.cacheSize).toBe(1);
+
+    renderer.resize(801, 600, 2);
+    expect(canvas.sizeWrites).toBe(2);
+    expect(renderer.assets.cacheSize).toBe(0);
+
+    renderer.assets.tokenSprite("ruby", "none", 48, false);
+    renderer.resize(801, 600, 1);
+    expect(canvas.sizeWrites).toBe(3);
+    expect(renderer.assets.cacheSize).toBe(0);
+  });
 });

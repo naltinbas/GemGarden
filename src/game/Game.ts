@@ -229,13 +229,14 @@ export class Game {
     if (this.running) return;
     this.running = true;
     (window as unknown as { gemGarden?: Game }).gemGarden = this;
-    window.addEventListener("resize", this.onWindowResize);
     document.addEventListener("visibilitychange", this.onVisibility);
     window.addEventListener("pointerdown", this.unlockAudio, true);
     window.addEventListener("keydown", this.unlockAudio, true);
     if (typeof ResizeObserver !== "undefined") {
       this.resizeObserver = new ResizeObserver(() => this.resize());
       this.resizeObserver.observe(this.stage);
+    } else {
+      window.addEventListener("resize", this.onWindowResize);
     }
     this.resize();
     this.showMainMenu();
