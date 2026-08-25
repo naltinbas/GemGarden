@@ -81,11 +81,11 @@ select {
   color: inherit;
 }
 
-/* App frame: HUD row above the canvas stage; #ui contributes its children to the grid. */
+/* App frame: HUD row, canvas stage, tutorial banner row; #ui contributes its children to the grid. */
 
 #app {
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr) auto;
   grid-template-columns: minmax(0, 1fr);
   height: 100vh;
   height: 100dvh;
@@ -768,11 +768,11 @@ select {
 @media (min-width: 1400px) and (min-aspect-ratio: 3/2) {
   #app {
     grid-template-columns: auto minmax(0, 1fr);
-    grid-template-rows: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) auto;
   }
 
   .hud {
-    grid-row: 1;
+    grid-row: 1 / span 2;
     grid-column: 1;
     width: 19rem;
     flex-direction: column;
@@ -1136,10 +1136,44 @@ input[type="range"] {
   animation: drop-in var(--dur-slow) var(--ease) both;
 }
 
+/* During play the banner takes its own grid row under the stage, so the board shrinks instead of being covered. */
 .hud:not([hidden]) ~ .tutorial {
+  position: relative;
+  grid-row: 3;
+  grid-column: 1;
   top: auto;
-  bottom: max(1rem, env(safe-area-inset-bottom));
+  left: auto;
+  right: auto;
+  margin: 0.5rem auto max(0.6rem, env(safe-area-inset-bottom));
   animation-name: rise;
+}
+
+/* Wide landscape: under the stage, beside the HUD column. */
+@media (min-width: 1400px) and (min-aspect-ratio: 3/2) {
+  .hud:not([hidden]) ~ .tutorial {
+    grid-row: 2;
+    grid-column: 2;
+  }
+}
+
+/* Short landscape (a phone on its side): beside the board, so the stage keeps its height. */
+@media (max-width: 1399px) and (max-height: 520px) and (min-aspect-ratio: 3/2) {
+  #app {
+    grid-template-rows: auto minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .hud {
+    grid-column: 1 / span 2;
+  }
+
+  .hud:not([hidden]) ~ .tutorial {
+    grid-row: 2;
+    grid-column: 2;
+    align-self: center;
+    width: 15rem;
+    margin: 0 0.75rem 0 0;
+  }
 }
 
 .tutorial-text {
