@@ -204,9 +204,9 @@ export class InputManager extends EventEmitter<InputEvents> {
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     const key = e.key.length === 1 ? e.key.toLowerCase() : e.key;
 
+    // Pause keys are not "activity": they must not also skip the level intro.
     if (key === "Escape" || key === "p") {
       e.preventDefault();
-      this.emit("activity", null);
       this.emit("pause", null);
       return;
     }

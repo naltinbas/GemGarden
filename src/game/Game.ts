@@ -440,7 +440,9 @@ export class Game {
       if (session !== this.session) return;
       this.introSkip = null;
       this.ui.hideIntro();
-      this.fsm.set("PLAYER_INPUT");
+      // A pause that landed during the intro stays; input opens when it is resumed.
+      if (this.fsm.is("PAUSED")) this.resumeState = "PLAYER_INPUT";
+      else this.fsm.set("PLAYER_INPUT");
       this.hint.onBoardStable(board, level);
     });
   }
