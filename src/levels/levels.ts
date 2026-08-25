@@ -196,7 +196,7 @@ export const LEVELS: LevelDefinition[] = [
     ],
     allowedSpecials: ALL_SPECIALS,
     starThresholds: [10000, 14500, 18000],
-    tutorialMessage: "Match five in a line to form a Prism Core. Swap it with a gem to clear every gem of that color.",
+    tutorialMessage: "Match five in a line to form a Prism Core. Locked Buds open when you match beside them.",
     seed: 1010,
   },
   {

@@ -80,6 +80,7 @@ describe("level list", () => {
     }
     expect(LEVELS[0].tutorialMessage).toBeTruthy();
     expect(LEVELS[1].tutorialMessage).toMatch(/Vine Beam/);
+    expect(LEVELS[9].tutorialMessage).toMatch(/Locked Bud/);
   });
 });
 
