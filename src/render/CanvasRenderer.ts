@@ -4,7 +4,7 @@ import { TOKEN_STYLE } from "../game/Config";
 import type { Board } from "../board/Board";
 import type { TokenVisual } from "../systems/AnimationSystem";
 import { AssetFactory } from "./AssetFactory";
-import { cellCentre, type Layout, type RenderFrame } from "./RenderFrame";
+import { cellCentre, traceRoundRect, type Layout, type RenderFrame } from "./RenderFrame";
 
 const MARGIN_FRACTION = 0.04;
 const MIN_MARGIN = 8;
@@ -298,8 +298,7 @@ export class CanvasRenderer {
     ctx.globalAlpha = alpha;
     ctx.strokeStyle = "rgba(10, 10, 20, 0.6)";
     ctx.lineWidth = lineWidth + 2;
-    ctx.beginPath();
-    ctx.roundRect(x + inset, y + inset, cs - inset * 2, cs - inset * 2, radius);
+    traceRoundRect(ctx, x + inset, y + inset, cs - inset * 2, cs - inset * 2, radius);
     ctx.stroke();
     ctx.strokeStyle = color;
     ctx.lineWidth = lineWidth;

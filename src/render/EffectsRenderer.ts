@@ -1,7 +1,7 @@
 // Short-lived board effects with their own clocks: beams, rings, flashes, texts, banners.
 import type { CellPosition } from "../game/Types";
 import { easeOutCubic, easeInQuad, clamp } from "../utils/MathUtils";
-import { cellCentre, type Layout } from "./RenderFrame";
+import { cellCentre, traceRoundRect, type Layout } from "./RenderFrame";
 
 export type BeamOrientation = "horizontal" | "vertical";
 
@@ -287,8 +287,7 @@ export class EffectsRenderer {
     ctx.fillStyle = "rgba(14, 26, 24, 0.82)";
     ctx.strokeStyle = "rgba(255, 230, 150, 0.9)";
     ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.roundRect(-width / 2, -height / 2, width, height, height / 2);
+    traceRoundRect(ctx, -width / 2, -height / 2, width, height, height / 2);
     ctx.fill();
     ctx.stroke();
     ctx.lineWidth = Math.max(2, px * 0.16);
