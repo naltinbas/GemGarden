@@ -18,6 +18,8 @@ export interface UICallbacks {
   onHint(): void;
   /** HUD pause button. When omitted the pause dialog opens directly. */
   onPause?(): void;
+  /** Whether the game is paused; a sub-dialog only returns to the pause menu when it is. */
+  isPaused?(): boolean;
   /** Optional: the Game can route these to AudioManager.play("uiHover" | "uiSelect"). */
   onUiSound?(name: "uiHover" | "uiSelect"): void;
 }
@@ -149,6 +151,8 @@ export class UIManager {
   private notice: HTMLElement | null = null;
   private noticeTimer = 0;
   private cascadeTimer = 0;
+  // Document level so a modal still sees Escape/P when focus sits on <body> or the canvas.
+  private readonly onKey = (e: KeyboardEvent): void => this.onKeyDown(e);
 
   constructor(root: HTMLElement, callbacks: UICallbacks, options: UIOptions = {}) {
     this.root = root;
@@ -217,7 +221,11 @@ export class UIManager {
     this.toastHost.setAttribute("aria-live", "polite");
     root.appendChild(this.toastHost);
 
-    root.addEventListener("keydown", (e) => this.onKeyDown(e));
+    document.addEventListener("keydown", this.onKey);
+  }
+
+  dispose(): void {
+    document.removeEventListener("keydown", this.onKey);
   }
 
   // ---------------------------------------------------------------------------
@@ -319,8 +327,9 @@ export class UIManager {
     this.openModal("pause");
   }
 
+  /** Closes the pause menu, or a Controls/Settings/Credits dialog opened from it. */
   hidePause(): void {
-    if (this.activeModal === "pause") this.closeModal();
+    if (this.activeModal === "pause" || (this.isSubDialog() && this.returnTo === "pause")) this.closeModal();
   }
 
   showLevelComplete(result: LevelResult, hasNext: boolean): void {
@@ -964,8 +973,10 @@ export class UIManager {
   private goBack(): void {
     const to = this.returnTo;
     this.closeModal();
-    if (to === "pause") this.showPause();
-    else if (to === "levelSelect") this.cb.onLevelSelectScreen();
+    if (to === "pause") {
+      if (this.cb.isPaused?.() ?? true) this.showPause();
+      else this.focusTarget?.focus({ preventScroll: true });
+    } else if (to === "levelSelect") this.cb.onLevelSelectScreen();
     else if (to === "play") this.focusTarget?.focus({ preventScroll: true });
     else this.cb.onMainMenu();
   }
@@ -1003,6 +1014,10 @@ export class UIManager {
     this.lastFocus = null;
   }
 
+  private isSubDialog(): boolean {
+    return this.activeModal === "controls" || this.activeModal === "settings" || this.activeModal === "credits";
+  }
+
   private isInModal(node: Element): boolean {
     for (const modal of this.modals.values()) if (modal.contains(node)) return true;
     return false;
@@ -1014,14 +1029,16 @@ export class UIManager {
   }
 
   private onKeyDown(e: KeyboardEvent): void {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
     if (e.key === "Tab" && this.activeModal !== null) {
       this.trapTab(e);
       return;
     }
     if (e.key !== "Escape") {
-      if ((e.key === "p" || e.key === "P") && this.activeModal === "pause") {
+      // P toggles only from the pause menu itself; any other dialog swallows it so play cannot resume underneath.
+      if ((e.key === "p" || e.key === "P") && this.activeModal !== null) {
         e.preventDefault();
-        this.cb.onResume();
+        if (this.activeModal === "pause") this.cb.onResume();
       }
       return;
     }
@@ -1042,6 +1059,7 @@ export class UIManager {
         return;
       case "complete":
       case "failed":
+        e.preventDefault();
         return;
       case null:
         if (this.screen === "levelSelect") {

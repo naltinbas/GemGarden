@@ -168,6 +168,7 @@ export class Game {
         },
         onHint: () => this.showHint(),
         onPause: () => this.pause(),
+        isPaused: () => this.fsm.is("PAUSED"),
         onUiSound: (name) => this.audio.play(name),
       },
       { focusTarget: canvas },
@@ -251,6 +252,7 @@ export class Game {
     window.removeEventListener("keydown", this.unlockAudio, true);
     this.resizeObserver?.disconnect();
     this.input.dispose();
+    this.ui.dispose();
     this.debug?.dispose();
     this.audio.dispose();
     const w = window as unknown as { gemGarden?: Game };
@@ -478,7 +480,7 @@ export class Game {
   }
 
   resume(): void {
-    if (!this.fsm.is("PAUSED")) return;
+    if (!this.fsm.is("PAUSED") || this.subDialogOpen()) return;
     this.fsm.set(this.resumeState);
     this.clockPaused = false;
     this.input.setMode("play");
@@ -488,8 +490,15 @@ export class Game {
   }
 
   togglePause(): void {
+    if (this.subDialogOpen()) return;
     if (this.fsm.is("PAUSED")) this.resume();
     else this.pause();
+  }
+
+  /** Controls, Settings or Credits opened from the pause menu own the keyboard until they close. */
+  private subDialogOpen(): boolean {
+    const modal = this.ui.currentModal;
+    return modal !== null && modal !== "pause";
   }
 
   showHint(): void {
