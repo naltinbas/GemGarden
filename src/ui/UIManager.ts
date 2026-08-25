@@ -1024,7 +1024,8 @@ export class UIManager {
   }
 
   private focusFirst(container: HTMLElement): void {
-    const first = container.querySelector<HTMLElement>(FOCUSABLE);
+    // Skip hidden candidates such as the Continue button when there is no progress.
+    const first = Array.from(container.querySelectorAll<HTMLElement>(FOCUSABLE)).find((n) => n.offsetParent !== null);
     first?.focus({ preventScroll: true });
   }
 
