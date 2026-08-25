@@ -1,4 +1,4 @@
-import type { CellPosition } from "../game/Types";
+import type { CellPosition, Token } from "../game/Types";
 import type { Board } from "../board/Board";
 import type { AnimationSystem } from "../systems/AnimationSystem";
 import type { ParticleSystem } from "../systems/ParticleSystem";
@@ -20,6 +20,12 @@ export interface HintVisual {
   t: number;
 }
 
+/** A token that has left the board but is still animating out (pops, seed deliveries). */
+export interface GhostToken {
+  token: Token;
+  at: CellPosition;
+}
+
 export interface RenderSettings {
   highContrast: boolean;
   reducedMotion: boolean;
@@ -37,6 +43,8 @@ export interface RenderFrame {
   cursorVisible: boolean;
   hover?: CellPosition | null;
   hint?: HintVisual | null;
+  /** Drawn on top of the board tokens with their own visuals. */
+  ghosts?: readonly GhostToken[];
   /** 0..1, screen shake strength. */
   shake: number;
   /** Milliseconds since the game started. */

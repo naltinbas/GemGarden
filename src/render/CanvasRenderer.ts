@@ -1,5 +1,5 @@
 // Draws one RenderFrame to a canvas. Reads the board, never changes it.
-import type { Cell, CellPosition, Token } from "../game/Types";
+import type { CellPosition, Token } from "../game/Types";
 import { TOKEN_STYLE } from "../game/Config";
 import type { Board } from "../board/Board";
 import type { TokenVisual } from "../systems/AnimationSystem";
@@ -10,11 +10,14 @@ const MARGIN_FRACTION = 0.04;
 const MIN_MARGIN = 8;
 
 interface TokenDraw {
-  cell: Cell;
+  row: number;
+  col: number;
   token: Token;
   visual: TokenVisual | null;
-  /** Draw order; moving or scaled tokens go last so they sit on top. */
+  /** Draw order; moving or scaled tokens go last, ghosts above those. */
   layer: number;
+  /** Under shadow mist: no glow. */
+  hidden: boolean;
 }
 
 export class CanvasRenderer {
@@ -196,20 +199,25 @@ export class CanvasRenderer {
           if (visual.x !== 0 || visual.y !== 0) layer = 2;
           else if (visual.scale !== 1 || visual.rot !== 0) layer = 1;
         }
-        list.push({ cell, token, visual, layer });
+        list.push({ row: r, col: c, token, visual, layer, hidden: cell.blocker?.type === "shadowMist" });
+      }
+    }
+    if (frame.ghosts) {
+      for (const g of frame.ghosts) {
+        const visual = visuals.has(g.token.id) ? visuals.get(g.token.id) : null;
+        list.push({ row: g.at.row, col: g.at.col, token: g.token, visual, layer: 3, hidden: false });
       }
     }
     list.sort((a, b) => a.layer - b.layer || a.token.id - b.token.id);
 
     for (const item of list) {
-      const { cell, token, visual } = item;
-      const centre = cellCentre(layout, cell.row, cell.col);
+      const { token, visual, hidden } = item;
+      const centre = cellCentre(layout, item.row, item.col);
       const x = centre.x + (visual ? visual.x * cs : 0);
       const y = centre.y + (visual ? visual.y * cs : 0);
       const scale = visual ? visual.scale : 1;
       const alpha = visual ? visual.alpha : 1;
       if (alpha <= 0 || scale <= 0) continue;
-      const hidden = cell.blocker?.type === "shadowMist";
       const special = token.special !== "none";
       let glow = visual ? visual.glow : 0;
       if (!settings.reducedMotion && !hidden) {
