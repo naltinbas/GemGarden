@@ -137,7 +137,7 @@ export class CanvasRenderer {
     }
 
     this.drawParticles(ctx, frame);
-    frame.effects.draw(ctx, layout);
+    frame.effects.draw(ctx, layout, hc);
     if (settings.showGridCoords) this.drawGridCoords(ctx, frame);
     ctx.restore();
 

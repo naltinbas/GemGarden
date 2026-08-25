@@ -135,14 +135,14 @@ export class EffectsRenderer {
     this.pulses.length = 0;
   }
 
-  draw(ctx: CanvasRenderingContext2D, layout: Layout): void {
+  draw(ctx: CanvasRenderingContext2D, layout: Layout, highContrast = false): void {
     if (!this.isBusy()) return;
     ctx.save();
     for (const b of this.beams) this.drawBeam(ctx, layout, b);
     for (const r of this.rings) this.drawRing(ctx, layout, r);
     for (const p of this.pulses) this.drawPulse(ctx, layout, p);
     for (const f of this.flashes) this.drawFlash(ctx, layout, f);
-    for (const t of this.texts) this.drawText(ctx, layout, t);
+    for (const t of this.texts) this.drawText(ctx, layout, t, highContrast);
     for (const b of this.banners) this.drawBanner(ctx, layout, b);
     ctx.restore();
   }
@@ -240,29 +240,31 @@ export class EffectsRenderer {
     ctx.globalAlpha = 1;
   }
 
-  private drawText(ctx: CanvasRenderingContext2D, layout: Layout, fx: TextFx): void {
+  private drawText(ctx: CanvasRenderingContext2D, layout: Layout, fx: TextFx, highContrast: boolean): void {
     const t = fx.age / fx.duration;
     const { x, y } = cellCentre(layout, fx.at.row, fx.at.col);
     const rise = layout.cellSize * 0.9 * easeOutCubic(t);
     const pop = t < 0.15 ? 0.6 + 0.4 * (t / 0.15) : 1;
     const alpha = t < 0.7 ? 1 : 1 - (t - 0.7) / 0.3;
     const px = Math.max(11, layout.cellSize * 0.36 * fx.size * pop);
+    // Top-row texts stop at the board edge instead of sliding under the HUD.
+    const ty = Math.max(layout.originY + px * 0.6, y - rise);
     ctx.globalAlpha = clamp(alpha, 0, 1);
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.font = `bold ${px}px system-ui, "Segoe UI", sans-serif`;
-    ctx.lineWidth = Math.max(2, px * 0.18);
-    ctx.strokeStyle = "rgba(10, 8, 20, 0.85)";
-    ctx.strokeText(fx.text, x, y - rise);
-    ctx.fillStyle = fx.color;
-    ctx.fillText(fx.text, x, y - rise);
+    ctx.lineWidth = Math.max(2, px * (highContrast ? 0.24 : 0.18));
+    ctx.strokeStyle = highContrast ? "#000000" : "rgba(10, 8, 20, 0.85)";
+    ctx.strokeText(fx.text, x, ty);
+    ctx.fillStyle = highContrast ? "#ffffff" : fx.color;
+    ctx.fillText(fx.text, x, ty);
     if (fx.label) {
       const lp = Math.max(9, px * 0.55);
       ctx.font = `600 ${lp}px system-ui, "Segoe UI", sans-serif`;
-      ctx.lineWidth = Math.max(1.5, lp * 0.18);
-      ctx.strokeText(fx.label, x, y - rise + px * 0.75);
+      ctx.lineWidth = Math.max(1.5, lp * (highContrast ? 0.24 : 0.18));
+      ctx.strokeText(fx.label, x, ty + px * 0.75);
       ctx.fillStyle = "#ffffff";
-      ctx.fillText(fx.label, x, y - rise + px * 0.75);
+      ctx.fillText(fx.label, x, ty + px * 0.75);
     }
     ctx.globalAlpha = 1;
   }
