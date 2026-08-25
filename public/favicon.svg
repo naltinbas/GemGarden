@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+<!--
+  Gem Garden logo. Original artwork, hand-authored SVG geometry.
+  Wordmark outlined from Cormorant Garamond (SIL Open Font License 1.1, https://openfontlicense.org),
+  weights 700 ("Gem") and 500 ("Garden"), via opentype.js. No fonts or external assets are referenced.
+-->
+<defs>
+<radialGradient id="gbGlow">
+<stop offset="0" stop-color="#f2b52a" stop-opacity="0.45"/><stop offset="0.5" stop-color="#f2b52a" stop-opacity="0.16"/><stop offset="1" stop-color="#f2b52a" stop-opacity="0"/>
+</radialGradient>
+<linearGradient id="gbGold" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0" stop-color="#fff1c9"/><stop offset="0.45" stop-color="#f2c56b"/><stop offset="1" stop-color="#d6982f"/>
+</linearGradient>
+<linearGradient id="gbPanel" x1="0" y1="0" x2="1" y2="1">
+<stop offset="0" stop-color="#10312a"/><stop offset="1" stop-color="#06140f"/>
+</linearGradient>
+</defs>
+<g id="bloom" transform="translate(128 122.5)">
+<circle r="72" fill="url(#gbGlow)"/>
+<g id="stem" stroke-linecap="round" stroke-linejoin="round">
+<path d="M0,20 C2,50 -2,88 0,118" fill="none" stroke="#0c2418" stroke-width="16"/>
+<path d="M0,20 C2,50 -2,88 0,118" fill="none" stroke="#1d7a48" stroke-width="10"/>
+<g transform="translate(-3 110) rotate(-6) scale(1 1)">
+<path d="M0,0 C-8,-14 -36,-27 -58,-14 C-46,2 -20,10 0,0 Z" fill="#0c2418" stroke="#0c2418" stroke-width="6"/>
+<path d="M0,0 C-8,-14 -36,-27 -58,-14 C-46,2 -20,10 0,0 Z" fill="#2ebd6b"/>
+<path d="M-6,-2 C-20,-8 -36,-13 -50,-13" fill="none" stroke="#b6f5cf" stroke-width="2.2" opacity="0.85"/>
+</g>
+<g transform="translate(3 102) rotate(8) scale(-1 1)">
+<path d="M0,0 C-8,-14 -36,-27 -58,-14 C-46,2 -20,10 0,0 Z" fill="#0c2418" stroke="#0c2418" stroke-width="6"/>
+<path d="M0,0 C-8,-14 -36,-27 -58,-14 C-46,2 -20,10 0,0 Z" fill="#2ebd6b"/>
+<path d="M-6,-2 C-20,-8 -36,-13 -50,-13" fill="none" stroke="#b6f5cf" stroke-width="2.2" opacity="0.85"/>
+</g>
+</g>
+<g id="petals" stroke-linejoin="round">
+<g transform="rotate(0)">
+<polygon points="0,-112 39,-63 0,-14 -39,-63" fill="#b7b8c0" stroke="#0c2418" stroke-width="6"/>
+<polygon points="0,-112 0,-96 -16,-63 -39,-63" fill="#f5f4f9"/>
+<polygon points="0,-112 39,-63 16,-63 0,-96" fill="#eeecf5"/>
+<polygon points="-39,-63 -16,-63 0,-30 0,-14" fill="#b7b8c0"/>
+<polygon points="39,-63 0,-14 0,-30 16,-63" fill="#8a8e93"/>
+<polygon points="0,-96 16,-63 0,-30 -16,-63" fill="#ebe8f3"/>
+<path d="M-16,-63 L0,-96 L16,-63" fill="none" stroke="#ffffff" stroke-opacity="0.35" stroke-width="1.5"/>
+</g>
+<g transform="rotate(72)">
+<polygon points="0,-112 39,-63 0,-14 -39,-63" fill="#b5324a" stroke="#0c2418" stroke-width="6"/>
+<polygon points="0,-112 0,-96 -16,-63 -39,-63" fill="#f4a7b5"/>
+<polygon points="0,-112 39,-63 16,-63 0,-96" fill="#ec667e"/>
+<polygon points="-39,-63 -16,-63 0,-30 0,-14" fill="#b5324a"/>
+<polygon points="39,-63 0,-14 0,-30 16,-63" fill="#882b3a"/>
+<polygon points="0,-96 16,-63 0,-30 -16,-63" fill="#e84b67"/>
+<path d="M-16,-63 L0,-96 L16,-63" fill="none" stroke="#ffffff" stroke-opacity="0.35" stroke-width="1.5"/>
+</g>
+<g transform="rotate(144)">
+<polygon points="0,-112 39,-63 0,-14 -39,-63" fill="#be9224" stroke="#0c2418" stroke-width="6"/>
+<polygon points="0,-112 0,-96 -16,-63 -39,-63" fill="#f9de9f"/>
+<polygon points="0,-112 39,-63 16,-63 0,-96" fill="#f5c559"/>
+<polygon points="-39,-63 -16,-63 0,-30 0,-14" fill="#be9224"/>
+<polygon points="39,-63 0,-14 0,-30 16,-63" fill="#8f711f"/>
+<polygon points="0,-96 16,-63 0,-30 -16,-63" fill="#f3bb3b"/>
+<path d="M-16,-63 L0,-96 L16,-63" fill="none" stroke="#ffffff" stroke-opacity="0.35" stroke-width="1.5"/>
+</g>
+<g transform="rotate(216)">
+<polygon points="0,-112 39,-63 0,-14 -39,-63" fill="#2672b8" stroke="#0c2418" stroke-width="6"/>
+<polygon points="0,-112 0,-96 -16,-63 -39,-63" fill="#a1ccf5"/>
+<polygon points="0,-112 39,-63 16,-63 0,-96" fill="#5da6ed"/>
+<polygon points="-39,-63 -16,-63 0,-30 0,-14" fill="#2672b8"/>
+<polygon points="39,-63 0,-14 0,-30 16,-63" fill="#1e5a8d"/>
+<polygon points="0,-96 16,-63 0,-30 -16,-63" fill="#4096ea"/>
+<path d="M-16,-63 L0,-96 L16,-63" fill="none" stroke="#ffffff" stroke-opacity="0.35" stroke-width="1.5"/>
+</g>
+<g transform="rotate(288)">
+<polygon points="0,-112 39,-63 0,-14 -39,-63" fill="#7042b2" stroke="#0c2418" stroke-width="6"/>
+<polygon points="0,-112 0,-96 -16,-63 -39,-63" fill="#ccb0f1"/>
+<polygon points="0,-112 39,-63 16,-63 0,-96" fill="#a776e7"/>
+<polygon points="-39,-63 -16,-63 0,-30 0,-14" fill="#7042b2"/>
+<polygon points="39,-63 0,-14 0,-30 16,-63" fill="#553688"/>
+<polygon points="0,-96 16,-63 0,-30 -16,-63" fill="#975de2"/>
+<path d="M-16,-63 L0,-96 L16,-63" fill="none" stroke="#ffffff" stroke-opacity="0.35" stroke-width="1.5"/>
+</g>
+</g>
+<g id="core">
+<circle r="35" fill="#0c2418"/>
+<circle r="32" fill="#f0a726"/>
+<path d="M-32,0 A32,32 0 0 0 32,0 A32,17 0 0 1 -32,0 Z" transform="rotate(-38)" fill="#c47716"/>
+<path d="M-17.9,-6.5 A19,19 0 0 1 -4.9,-18.4" fill="none" stroke="#fff1c2" stroke-width="5" stroke-linecap="round"/>
+</g>
+</g>
+</svg>
